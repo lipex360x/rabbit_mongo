@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  mongodb:
+    image: bitnami/mongodb:latest
+    container_name: ${MONGO_CONTAINER_NAME}
+    network_mode: host
+
+volumes:
+  pgdata:
+    driver: local
