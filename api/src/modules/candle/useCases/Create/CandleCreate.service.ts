@@ -1,5 +1,5 @@
-import ICandleProps, { CreateProps } from '@modules/candle/repositories/interfaces/ICandle.interface'
 import { inject, injectable } from 'tsyringe'
+import ICandleProps, { CreateProps } from '@modules/candle/repositories/interfaces/ICandle.interface'
 
 @injectable()
 export default class CandleCreateService {

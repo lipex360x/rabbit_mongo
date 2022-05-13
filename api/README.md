@@ -3,3 +3,6 @@
 
 * READ BY ID
 > curl -X GET http://localhost:4000/crud/findById/xxxxxxxIDxxxxxx
+
+
+<!-- kill $(lsof -t -i:4000) -->

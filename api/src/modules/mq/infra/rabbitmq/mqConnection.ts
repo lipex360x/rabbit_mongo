@@ -1,13 +1,10 @@
 import { Channel, connect } from 'amqplib'
 
-const rabbitConnection = async () : Promise<Channel> => {
+const mqConnection = async () : Promise<Channel> => {
   try {
-    console.log('\n📚 Trying to connect to RabbitMQ')
     const connection = await connect(process.env.RABBIT_URL)
     const channel = await connection.createChannel()
     await channel.assertQueue(process.env.QUEUE_NAME)
-    console.log('📚 Connected to RabbitMQ')
-
     return channel
   } catch (error) {
     console.log('❌ Connection to RabbitMQ failed')
@@ -16,4 +13,4 @@ const rabbitConnection = async () : Promise<Channel> => {
   }
 }
 
-export default rabbitConnection
+export default mqConnection

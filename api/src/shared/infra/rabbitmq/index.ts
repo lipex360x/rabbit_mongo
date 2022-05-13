@@ -7,8 +7,6 @@ const rabbitConnection = async () : Promise<Channel> => {
     const channel = await connection.createChannel()
     await channel.assertQueue(process.env.QUEUE_NAME)
     console.log('📚 Connected to RabbitMQ')
-
-    return channel
   } catch (error) {
     console.log('❌ Connection to RabbitMQ failed')
     console.log(error)
