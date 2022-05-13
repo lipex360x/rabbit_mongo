@@ -6,6 +6,10 @@ export default class CrudRepository implements ICrud {
     return Crud.create({ content })
   }
 
+  async findById ({ id }: FindByIdProps): Promise<CrudProps> {
+    return Crud.findOne({ _id: id })
+  }
+
   async find ({ quantity }: FindQtdeProps): Promise<CrudProps[]> {
     const n = quantity > 0 ? quantity : 10
 
@@ -20,10 +24,6 @@ export default class CrudRepository implements ICrud {
 
   async findAll (): Promise<CrudProps[]> {
     return Crud.find()
-  }
-
-  async findById ({ id }: FindByIdProps): Promise<CrudProps> {
-    return Crud.findOne({ _id: id })
   }
 
   async update ({ content }: UpdateProps): Promise<CrudProps> {
