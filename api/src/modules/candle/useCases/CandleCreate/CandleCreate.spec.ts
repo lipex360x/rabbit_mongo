@@ -3,28 +3,21 @@ import 'reflect-metadata'
 import CandleCreateService from './CandleCreate.service'
 
 import FakeCandleRepository from '@modules/candle/repositories/fakes/FakeCandle.repository'
+import FakeMQRepository from '@modules/MQ/repositories/fakes/FakeMQ.repository'
 
 let candleCreateService: CandleCreateService
 let fakeCandleRepository: FakeCandleRepository
+let fakeMQRepository: FakeMQRepository
 
 describe('Candle Create', () => {
   beforeEach(() => {
     fakeCandleRepository = new FakeCandleRepository()
-    candleCreateService = new CandleCreateService(fakeCandleRepository)
+    fakeMQRepository = new FakeMQRepository()
+    candleCreateService = new CandleCreateService(fakeCandleRepository, fakeMQRepository)
   })
 
-  it('should be able to create a new candle', async () => {
-    const content = await fakeCandleRepository.create({
-      currency: 'BTC',
-      finalDateTime: new Date(),
-      open: 30000,
-      close: 35000,
-      high: 38000,
-      low: 28000,
-      color: 'green'
-    })
-
-    const newContent = await candleCreateService.execute(content)
+  it('should be able to read a candle', async () => {
+    const newContent = await candleCreateService.execute()
 
     expect(newContent).toHaveProperty('_id')
   })

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import FindLastCandlesController from '@modules/candle/useCases/FindLastCandles/FindLastCandles.controller'
-import CandleCreateController from '@modules/candle/useCases/Create/CandleCreate.controller'
+import CandleCreateController from '@modules/candle/useCases/CandleCreate/CandleCreate.controller'
 
 const candleRoutes = Router()
 

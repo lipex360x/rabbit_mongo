@@ -6,12 +6,12 @@ import CandlesRepository from '@modules/candles/repositories/Candles.repository'
 import Period from '@modules/candles/enumerators/Periods'
 
 export default class MessageChannelService {
-  mq: Channel
-  repository: CandlesRepository
+  private _mq: Channel
+  private _repository: CandlesRepository
 
   constructor (mq: Channel) {
-    this.mq = mq
-    this.repository = new CandlesRepository()
+    this._mq = mq
+    this._repository = new CandlesRepository()
   }
 
   private async _readMarketPrice () {
@@ -22,7 +22,7 @@ export default class MessageChannelService {
   }
 
   private _saveQueue (message: string): Boolean {
-    return this.mq.sendToQueue(process.env.QUEUE_NAME, Buffer.from(message))
+    return this._mq.sendToQueue(process.env.QUEUE_NAME, Buffer.from(message))
   }
 
   async execute () {
@@ -32,15 +32,15 @@ export default class MessageChannelService {
 
       for (let i = 0; i < loopTimes; i++) {
         price = await this._readMarketPrice()
-        this.repository.addValue(price)
+        this._repository.addValue(price)
 
         console.log(`Market Price #${i + 1} of ${loopTimes}`)
         await sleep(Period.TEN_SECONDS)
       }
 
-      this.repository.closeCandle()
+      this._repository.closeCandle()
 
-      const data = this.repository.toSimpleObject(price)
+      const data = this._repository.toSimpleObject(price)
       const dataJson = JSON.stringify(data)
 
       if (this._saveQueue(dataJson)) console.log('queue saved')

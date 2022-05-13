@@ -1,9 +1,9 @@
 import { container } from 'tsyringe'
 
-import ICandleRepository from '../interfaces/ICandle.interface'
+import ICandleInterface from '../interfaces/ICandle.interface'
 import CandleRepository from '../../infra/repositories/Candle.repository'
 
-container.registerSingleton<ICandleRepository>(
+container.registerSingleton<ICandleInterface>(
   'CandleRepository',
   CandleRepository
 )
