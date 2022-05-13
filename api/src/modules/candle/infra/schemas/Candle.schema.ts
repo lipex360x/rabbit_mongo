@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose'
 
-export type CrudProps = {
+export type CandleProps = {
   currency: string
   finalDateTime: Date
   open: number
@@ -10,7 +10,7 @@ export type CrudProps = {
   color: string
 } & Document
 
-const CrudSchema = new Schema<CrudProps>(
+const CandleSchema = new Schema<CandleProps>(
   {
     currency: { type: String, trim: true, required: true },
     finalDateTime: { type: Date },
@@ -26,6 +26,6 @@ const CrudSchema = new Schema<CrudProps>(
   { timestamps: true }
 )
 
-const CrudModel = model<CrudProps>('Candle', CrudSchema)
+const CandleModel = model<CandleProps>('Candle', CandleSchema)
 
-export default CrudModel
+export default CandleModel

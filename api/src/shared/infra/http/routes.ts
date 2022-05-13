@@ -1,9 +1,9 @@
 import { Router } from 'express'
 
-import crudRoutes from '@modules/crud/infra/routes/Crud.routes'
+import candleRoutes from '@modules/candle/infra/routes/Candle.routes'
 
 const routes = Router()
 
-routes.use('/crud', crudRoutes)
+routes.use('/candle', candleRoutes)
 
 export default routes

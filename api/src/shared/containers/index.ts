@@ -1,1 +1,1 @@
-import '@modules/crud/repositories'
+import '@modules/candle/repositories'

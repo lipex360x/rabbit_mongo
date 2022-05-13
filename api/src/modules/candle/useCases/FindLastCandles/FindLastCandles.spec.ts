@@ -1,20 +1,20 @@
 import 'reflect-metadata'
 
-import CrudReadService from './FindLastCandles.service'
+import FindLastCandlesService from './FindLastCandles.service'
 
-import FakeCrudRepository from '@modules/crud/repositories/fakes/FakeCrud.repository'
+import FakeCandleRepository from '@modules/candle/repositories/fakes/FakeCandle.repository'
 
-let crudReadService: CrudReadService
-let fakeCrudRepository: FakeCrudRepository
+let findLastCandlesService: FindLastCandlesService
+let fakeCandleRepository: FakeCandleRepository
 
-describe('Crud Read', () => {
+describe('Candle Read', () => {
   beforeEach(() => {
-    fakeCrudRepository = new FakeCrudRepository()
-    crudReadService = new CrudReadService(fakeCrudRepository)
+    fakeCandleRepository = new FakeCandleRepository()
+    findLastCandlesService = new FindLastCandlesService(fakeCandleRepository)
   })
 
   it('should be able get candles from db', async () => {
-    await fakeCrudRepository.create({
+    await fakeCandleRepository.create({
       currency: 'BTC',
       finalDateTime: new Date(),
       open: 30000,
@@ -24,7 +24,7 @@ describe('Crud Read', () => {
       color: 'green'
     })
 
-    await fakeCrudRepository.create({
+    await fakeCandleRepository.create({
       currency: 'BTC',
       finalDateTime: new Date(),
       open: 30000,
@@ -34,7 +34,7 @@ describe('Crud Read', () => {
       color: 'red'
     })
 
-    await fakeCrudRepository.create({
+    await fakeCandleRepository.create({
       currency: 'BTC',
       finalDateTime: new Date(),
       open: 30000,
@@ -44,7 +44,7 @@ describe('Crud Read', () => {
       color: 'green'
     })
 
-    const newContent = await crudReadService.execute({ quantity: 3 })
+    const newContent = await findLastCandlesService.execute({ quantity: 3 })
 
     expect(newContent.length).toEqual(3)
   })
