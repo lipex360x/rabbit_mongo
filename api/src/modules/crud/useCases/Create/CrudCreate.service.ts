@@ -8,7 +8,7 @@ export default class CrudCreateService {
     private repository: ICrudProps
   ) {}
 
-  async execute ({ content }:CreateProps): Promise<CreateProps> {
-    return this.repository.create({ content })
+  async execute ({ currency, finalDateTime, open, close, high, low, color }:CreateProps): Promise<CreateProps> {
+    return this.repository.create({ currency, finalDateTime, open, close, high, low, color })
   }
 }

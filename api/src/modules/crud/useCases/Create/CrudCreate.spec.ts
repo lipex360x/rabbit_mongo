@@ -13,8 +13,16 @@ describe('Crud Create', () => {
     crudCreateService = new CrudCreateService(fakeCrudRepository)
   })
 
-  it('should be able to create a new register', async () => {
-    const content = await fakeCrudRepository.create({ content: 'Hello World' })
+  it('should be able to create a new candle', async () => {
+    const content = await fakeCrudRepository.create({
+      currency: 'BTC',
+      finalDateTime: new Date(),
+      open: 30000,
+      close: 35000,
+      high: 38000,
+      low: 28000,
+      color: 'green'
+    })
 
     const newContent = await crudCreateService.execute(content)
 
