@@ -1,24 +1,34 @@
 import 'reflect-metadata'
+import 'dotenv/config'
+
+import express from 'express'
+import http from 'http'
 
 import CandleCreateService from './CandleCreate.service'
 
 import FakeCandleRepository from '@modules/candle/repositories/fakes/FakeCandle.repository'
-import FakeMQRepository from '@modules/MQ/repositories/fakes/FakeMQ.repository'
+import sleep from '@shared/utils/sleep'
 
 let candleCreateService: CandleCreateService
 let fakeCandleRepository: FakeCandleRepository
-let fakeMQRepository: FakeMQRepository
+let server: http.Server
+
+const app = express()
 
 describe('Candle Create', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     fakeCandleRepository = new FakeCandleRepository()
-    fakeMQRepository = new FakeMQRepository()
-    candleCreateService = new CandleCreateService(fakeCandleRepository, fakeMQRepository)
+    server = app.listen(9999)
+    candleCreateService = new CandleCreateService(fakeCandleRepository, server)
+  })
+
+  afterAll(async () => {
+    return server && server.close()
   })
 
   it('should be able to read a candle', async () => {
     const newContent = await candleCreateService.execute()
 
-    expect(newContent).toHaveProperty('_id')
+    expect(newContent).toHaveProperty('consumerTag')
   })
 })

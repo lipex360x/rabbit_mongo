@@ -30,7 +30,7 @@ export default class MessageChannelService {
       const loopTimes = Period.FIVE_MINUTES / Period.TEN_SECONDS
       let price = 0
 
-      for (let i = 0; i < loopTimes; i++) {
+      for (let i = 0; i < 3; i++) {
         price = await this._readMarketPrice()
         this._repository.addValue(price)
 

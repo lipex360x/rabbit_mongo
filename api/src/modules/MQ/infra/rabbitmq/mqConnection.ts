@@ -5,6 +5,7 @@ const mqConnection = async () : Promise<Channel> => {
     const connection = await connect(process.env.RABBIT_URL)
     const channel = await connection.createChannel()
     await channel.assertQueue(process.env.QUEUE_NAME)
+    console.log('🚀 Connected to Rabbit MQ')
     return channel
   } catch (error) {
     console.log('❌ Connection to RabbitMQ failed')

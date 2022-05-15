@@ -1,22 +1,22 @@
-import http from 'http'
 import { app, connectMongo } from './app'
 
-import socketio from '@shared/infra/socket'
-import rabbitConnection from '@shared/infra/rabbitmq'
+import CandleCreateService from '@modules/candle/useCases/CandleCreate/CandleCreate.service'
+import CandleRepository from '@modules/candle/infra/repositories/Candle.repository'
 
 const createServer = async () => {
   const API_PORT = process.env.API_PORT
+  console.log('\x1Bc')
 
   await connectMongo()
-  await rabbitConnection()
 
-  const server = http.createServer(app)
-
-  app.listen(API_PORT, () => {
-    console.log('🚀 Server started on port 4000')
-
-    socketio.openConnection(server)
+  const server = app.listen(API_PORT, () => {
+    console.log(`🚀 Server started on port ${API_PORT}`)
   })
+
+  const candleRepository = new CandleRepository()
+
+  const candleService = new CandleCreateService(candleRepository, server)
+  candleService.execute()
 
   process.on('SIGINT', async () => {
     server.close()

@@ -1,23 +1,45 @@
 import { inject, injectable } from 'tsyringe'
+import http from 'http'
 
-import ICandleProps, { CreateProps } from '@modules/candle/repositories/interfaces/ICandle.interface'
-import IMQRepository from '@modules/MQ/repositories/interfaces/IMQ.interface'
+import ICandleProps from '@modules/candle/repositories/interfaces/ICandle.interface'
+import mqConnection from '@modules/MQ/infra/rabbitmq/mqConnection'
+import { Server } from 'socket.io'
 
 @injectable()
 export default class CandleCreateService {
+  private _io: Server
+
   constructor (
     @inject('CandleRepository')
     private repository: ICandleProps,
 
-    @inject('MQRepository')
-    private mq: IMQRepository
-  ) {}
+    server: http.Server
+  ) {
+    this._io = new Server(server, {
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+      }
+    })
 
-  async execute (): Promise<CreateProps> {
-    const getCandle = await this.mq.consume({ queue_name: process.env.QUEUE_NAME })
+    this._io.on('connection', () => console.log('Web socket connection created'))
+  }
 
-    const candle:CreateProps = JSON.parse(getCandle)
+  async execute (): Promise<Object> {
+    const queue_name = process.env.QUEUE_NAME
+    const mq = await mqConnection()
 
-    return this.repository.create(candle)
+    const queue = await mq.consume(queue_name, async (msg) => {
+      console.log(msg.content.toString())
+      mq.ack(msg)
+
+      return 'teste'
+    })
+
+    return queue
+
+    // const candle:CreateProps = JSON.parse(getCandle)
+
+    // return this.repository.create(candle)
   }
 }
