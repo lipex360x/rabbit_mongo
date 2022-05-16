@@ -14,9 +14,9 @@ export type FindQtdeProps = {
   quantity?: number
 }
 
-type ICandleProps = {
+type ICandleRepository = {
   create(data: CreateProps): Promise<CandleProps>
   find(data: FindQtdeProps): Promise<CandleProps[]>
 }
 
-export default ICandleProps
+export default ICandleRepository
