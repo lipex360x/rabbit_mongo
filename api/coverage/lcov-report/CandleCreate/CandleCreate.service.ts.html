@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.35% </span>
+                <span class="strong">70.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/17</span>
+                <span class='fraction'>17/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/14</span>
+                <span class='fraction'>15/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -106,7 +106,14 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,6 +128,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -133,6 +142,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -141,18 +152,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { inject, injectable } from 'tsyringe'
 import http from 'http'
 &nbsp;
-import ICandleProps from '@modules/candle/repositories/interfaces/ICandle.interface'
+import ICandleProps, { CreateProps } from '@modules/candle/repositories/interfaces/ICandle.interface'
 import mqConnection from '@modules/candle/infra/rabbitmq/mqConnection'
 import { Server } from 'socket.io'
 &nbsp;
@@ -164,8 +178,10 @@ export default class CandleCreateService {
     @inject('CandleRepository')
     private repository: ICandleProps,
 &nbsp;
-    server: http.Server
-  ) {
+    private _server: http.Server
+  ) {}
+&nbsp;
+  private _socket (server: http.Server): Object {
     this._io = new Server(server, {
       cors: {
         origin: '*',
@@ -173,23 +189,28 @@ export default class CandleCreateService {
       }
     })
 &nbsp;
-    this._io.on('connection', <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >console.log('Web socket connection created'))</span>
+    return this._io
   }
 &nbsp;
   async execute (): Promise&lt;Object&gt; {
+    this._socket(this._server)
+&nbsp;
     const queue_name = process.env.QUEUE_NAME
     const mq = await mqConnection()
 &nbsp;
-    const queue = await mq.consume(queue_name, <span class="fstat-no" title="function not covered" >async </span>(msg) =&gt; {
-<span class="cstat-no" title="statement not covered" >      console.log(msg.content.toString())</span>
+    const queue = mq.consume(queue_name, <span class="fstat-no" title="function not covered" >async </span>(msg) =&gt; {
+      const candle: CreateProps = <span class="cstat-no" title="statement not covered" >JSON.parse(msg.content.toString())</span>
 <span class="cstat-no" title="statement not covered" >      mq.ack(msg)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      await this.repository.create(candle)</span>
+<span class="cstat-no" title="statement not covered" >      console.log('Candle Saved to dataBase')</span>
+&nbsp;
+      const socket = <span class="cstat-no" title="statement not covered" >this._io.emit(process.env.QUEUE_NAME, candle)</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (socket) <span class="cstat-no" title="statement not covered" >console.log('Candle emited by web socket')</span></span>
     })
 &nbsp;
+    console.log('Candle consumer started')
     return queue
-&nbsp;
-    // const candle:CreateProps = JSON.parse(getCandle)
-&nbsp;
-    // return this.repository.create(candle)
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -199,7 +220,7 @@ export default class CandleCreateService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon May 16 2022 09:05:44 GMT-0300 (Brasilia Standard Time)
+                at Wed May 18 2022 21:49:06 GMT-0300 (Brasilia Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

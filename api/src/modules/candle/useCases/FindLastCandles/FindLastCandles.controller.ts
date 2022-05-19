@@ -5,8 +5,7 @@ import CrudReadService from './FindLastCandles.service'
 
 export default class FindLastCandles {
   async handle (request: Request, response: Response): Promise<Response> {
-    const { quantity } = request.params
-    const qtde = parseInt(quantity)
+    const qtde = parseInt(request.params.quantity)
 
     const service = container.resolve(CrudReadService)
 

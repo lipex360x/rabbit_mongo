@@ -7,7 +7,6 @@ import http from 'http'
 import CandleCreateService from './CandleCreate.service'
 
 import FakeCandleRepository from '@modules/candle/repositories/fakes/FakeCandle.repository'
-import sleep from '@shared/utils/sleep'
 
 let candleCreateService: CandleCreateService
 let fakeCandleRepository: FakeCandleRepository

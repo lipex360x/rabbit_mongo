@@ -1,14 +1,11 @@
 import { Router } from 'express'
 
 import FindLastCandlesController from '@modules/candle/useCases/FindLastCandles/FindLastCandles.controller'
-import CandleCreateController from '@modules/candle/useCases/CandleCreate/CandleCreate.controller'
 
 const candleRoutes = Router()
 
 const findLastCandlesController = new FindLastCandlesController()
-const candleCreateController = new CandleCreateController()
 
-candleRoutes.get('/find/:quantity', findLastCandlesController.handle)
-candleRoutes.post('/create', candleCreateController.handle)
+candleRoutes.get('/:quantity', findLastCandlesController.handle)
 
 export default candleRoutes

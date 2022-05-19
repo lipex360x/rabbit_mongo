@@ -4,6 +4,6 @@ import candleRoutes from '@modules/candle/infra/routes/Candle.routes'
 
 const routes = Router()
 
-routes.use('/candle', candleRoutes)
+routes.use('/candles', candleRoutes)
 
 export default routes
