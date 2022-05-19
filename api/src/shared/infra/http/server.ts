@@ -23,10 +23,10 @@ const createServer = async () => {
     console.log('App server and connection to MongoDB closed')
   })
 
-  // process.on('SIGTERM', async () => {
-  //   server.close()
-  //   console.log('App server and connection to MongoDB closed')
-  // })
+  process.on('SIGTERM', async () => {
+    server.close()
+    console.log('App server and connection to MongoDB closed')
+  })
 }
 
 createServer()
