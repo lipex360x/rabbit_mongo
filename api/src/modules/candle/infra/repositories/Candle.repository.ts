@@ -1,7 +1,7 @@
 import Candle, { CandleProps } from '@modules/candle/infra/schemas/Candle.schema'
-import ICandle, { CreateProps, FindQtdeProps } from '@modules/candle/repositories/interfaces/ICandle.interface'
+import ICandleRepository, { CreateProps, FindQtdeProps } from '@modules/candle/repositories/interfaces/ICandle.interface'
 
-export default class CandleRepository implements ICandle {
+export default class CandleRepository implements ICandleRepository {
   async create ({ currency, finalDateTime, open, close, high, low, color }: CreateProps): Promise<CandleProps> {
     return Candle.create({ currency, finalDateTime, open, close, high, low, color })
   }

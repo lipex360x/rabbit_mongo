@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe'
 import http from 'http'
 
 import ICandleProps from '@modules/candle/repositories/interfaces/ICandle.interface'
-import mqConnection from '@modules/MQ/infra/rabbitmq/mqConnection'
+import mqConnection from '@modules/candle/infra/rabbitmq/mqConnection'
 import { Server } from 'socket.io'
 
 @injectable()
@@ -32,8 +32,6 @@ export default class CandleCreateService {
     const queue = await mq.consume(queue_name, async (msg) => {
       console.log(msg.content.toString())
       mq.ack(msg)
-
-      return 'teste'
     })
 
     return queue
